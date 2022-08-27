@@ -1,40 +1,43 @@
-import React, { Component} from "react";
+import React, {useState} from "react";
 import { NameInputTitle,ContactFormWrapper,ContactFormButton, Input } from "./ContactForm.styled"; 
 import PropTypes from "prop-types"
 
-class ContactForm extends Component {
-    state = {
-        name: '',
-        number: ''
-      }
- 
-      handleInputChange = (event) => {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-    
-        this.setState({
-          [name]: value
-        });
-      }
-    
-      handleSubmit = (event) =>  {
-        event.preventDefault();
-        console.log(this.state)
-        this.props.onSubmit(this.state.name , this.state.number)
-        this.setState({name: "", number: ""})
-      }
 
-    render() {
+export default function ContactForm({onSubmit}) {
+  const [name,setName] = useState('')
+  const [number,setNumber] = useState('')
+
+  const handleInputChangeName = (event) => {
+            const target = event.target;
+            const value = target.value;
+            setName(value)
+             
+          }
+  const handleInputChangeNumber = (event) => {
+    const target = event.target;
+    const value = target.value;
+    setNumber(value)
+    
       
-        return (
-            <ContactFormWrapper onSubmit={this.handleSubmit}>
+}
+
+    const  handleSubmit = (event) =>  {
+          event.preventDefault();
+          console.log(name, number)
+          onSubmit( name , number)
+          setName('')
+          setNumber('')
+        }
+  
+  return (
+    <div>
+ <ContactFormWrapper onSubmit={handleSubmit}>
                 <NameInputTitle>
                 Name:
                 </NameInputTitle>
                 <Input
-                        onChange={this.handleInputChange}
-                        value={this.state.name}
+                        onChange={handleInputChangeName}
+                        value={name}
                         type="text"
                         name="name"
                         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -48,8 +51,8 @@ class ContactForm extends Component {
                 Number:
                 </NameInputTitle>
                 <Input
-                      onChange={this.handleInputChange}
-                      value={this.state.number}
+                      onChange={handleInputChangeNumber}
+                      value={number}
                       type="tel"
                       name="number"
                       pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -59,19 +62,15 @@ class ContactForm extends Component {
                 />
                 <ContactFormButton type="submit" value="Add contact" />
           </ContactFormWrapper>
-        )
-      }
-  }         
-          
-            
 
+    </div>
+  )
+} 
 
-export default ContactForm
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-   
-};
+  ContactForm.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    
+  };
 
 
 
