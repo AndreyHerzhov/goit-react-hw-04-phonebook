@@ -5,7 +5,7 @@ import { nanoid } from 'nanoid'
 import styled from "styled-components";
 import Filter from "./moleculs/Filter/Filter";
 import Notiflix from 'notiflix';
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect } from "react";
 
 
 export default function App() {
